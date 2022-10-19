@@ -6,8 +6,6 @@ import numpy as np
 
 class visualisation():
     def __init__(self, model1, model2=None):
-        self.model1 = model1
-        self.model2 = model2
         self.models = [self.model1, self.model2]
 
 
@@ -28,16 +26,18 @@ class visualisation():
         # only one figure
         fig = plt.figure()
 
+        # different models
         for i in range(len(self.models)):
             if self.models[i] == None:
                 break
-        
-            # add different kind of lines according to number of systems
-            for j in range(0, len(self.models[i].y)):
-                plt.plot(self.models[i].t, self.models[i].y[j, :], 
-                label=f'model_{i+1}-'+ f'mass in{legend_list[j]}', 
-                linestyle = linestyle_list[j], 
-                color = plt.rcParams["axes.prop_cycle"][i])
+            # consider more than one dose
+            for j in range(0, len(self.models[i])):
+                # different linestyles according to number of systems
+                for k in range(0, len(self.models[i].y)):
+                    plt.plot(self.models[i][j].t, self.models[i][j].y[k, :], 
+                    label=f'model_{i+1}-'+ f'mass in{legend_list[k]}', 
+                    linestyle = linestyle_list[k], 
+                    color = plt.rcParams["axes.prop_cycle"][i])
 
         plt.legend()
         plt.title('Drug Mass [ng] versus Time [h]')
