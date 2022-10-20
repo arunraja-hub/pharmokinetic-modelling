@@ -12,12 +12,35 @@ This pharmokinetic model describes the concentration of a drug in a patient. Thi
 ## :running: Using Pharmodel
 ### Input Parameters
 The model takes a csv file and the parameters as input parameters: 
-- The csv file describes the dosing protocol including the start of a certain dose (tstart, in [h]), the end of the dosing period (tend, in [h]), the drug mass (dose, in [ng]), and a binary value indicating if the dose is given instantaneous at a certain time point or constant over a certain time period. Three examples of dosing protocols are provided ("test_dosis_continuous.csv", "test_dosis_instantaneous.csv", and "test_dosis_combined.csv"). 
-- the folowing parameters can be specified by the user:
- absorb: binary value indicating intravenous bolus dosing (0) or subcutaneous dosing (1);\
- comp: integer indicating the number of compartment. The three possibilities are only the central compartment (0), an additional peripheral compartment (1), or an second additional peripheral compartment (2);\
+- The csv file describes the dosing protocol including the start of a certain dose (tstart, in [h]), the end of the dosing period (tend, in [h]), the drug mass (dose, in [ng]), and a binary value indicating if the dose is given instantaneous at a certain time point or constant over a certain time period. Example protocols including edge cases are provided in the "test_data" folder. 
+- the folowing parameters can be specified by the user:\
+ **absorb**: binary value indicating intravenous bolus dosing (0) or subcutaneous dosing (1)\
+ **comp**: integer indicating the number of compartment. The three possibilities are only the central compartment (0), an additional peripheral compartment (1), or an second additional peripheral compartment (2)\
+ **$V_c$**: int or float  
+ **$CL$**: int/float  
+ **$Q_{p1}$**: int/float  
+ **$V_{p1}$**: int/float   
+ **$Q_{p2}$**: int/float   
+ **$V_{p2}$**: int/float   
+ **$k_a$**: int/float  
+ Examples parameter sets are stored in a list in the file "test_data/test_parameters.txt". 
+ \
  
+ **NOTE**: parameters should be provided by the user in the order as described above. So, in case of absorb=1 and comp=1, the user should provide a int/float for the parameters $Q_{p2}$ and $V_{p2}$ in order to set $k_a$.
+ 
+### Running the model
+The Pharmodel library consist of four classes. The **Protocol** class enable the user to read in a dosising protocol. The **Model** class stores the parameters. The **Solution** class solves the ODEs based on the desired pharmokinetic model, which can be visualised by the **Visualisation** class.  
+\
+This is an example code to run the model:
+<pre><code>dose_df = Pharmodel.Protocol.read_doses("test_data/test_dosis_instantaneous.csv")
+solution_model1 = Pharmodel.Solution.solve_loops(dose_df, 0, 1, 1.0, 1.0, 1.0, 1.0)
+solution_model2 = Pharmodel.Solution.solve_loops(dose_df, 0, 1, 1.0, 1.0, 2.0, 1.0)
+Pharmodel.Visualisation.plotting(solution_model1, solution_model2)
+</code></pre>
+
+The output:
+
 
 ## :page_facing_up: Licence 
-Pharmodel is fully open source. For more information about the license, see LICENSE.
+Pharmodel is fully open source. For more information about the license, see [LICENSE](LICENSE).
 
