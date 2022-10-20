@@ -40,6 +40,15 @@ class visualisation():
                     linestyle = linestyle_list[k], 
                     color = colour_list[i])
 
+                # add vertical line for inst dose
+                if j < len(self.models[i]) - 1:
+                    plt.vlines(x = self.models[i][j].t[-1], 
+                    ymin=self.models[i][j].y[0, -1], 
+                    ymax=self.models[i][j+1].y[0, 0],
+                    linestyle = linestyle_list[0], 
+                    color = colour_list[i])
+
+
         plt.legend()
         plt.title('Drug Mass [ng] versus Time [h]')
         plt.ylabel('drug mass [ng]')
