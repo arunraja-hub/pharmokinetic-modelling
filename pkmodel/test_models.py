@@ -18,7 +18,7 @@ def test_read_docs(test, expected, expected_error):
         assert np.all(len(test.select_dtypes(include=["float", 'int']).columns) \
             == len(test.columns))
 
-# expected: 2 or 3 depends on absorption
+# expected: 1 or 2 or 3 or 4 depends on different cases
 @pytest.mark.parametrize("test, expected, expected_error",
     [
         
@@ -35,7 +35,7 @@ def test_rhs(test, expected, expected_error):
         assert(len(rhs(test)) == expected)
 
 
-# expected: [1 len(sol.y)]
+# expected: len(sol.y)
 @pytest.mark.parametrize("test, expected, expected_error",
     [
         
@@ -48,18 +48,17 @@ def test_solver(test, expected, expected_error):
         with pytest.raises(expected_error):
             npt.assert_array_equal(expected, solver(test))
     else:
-        assert(len(test.t) == expected[0])
-        assert(len(test.y) == expected[1])
+        assert(len(solver(test).y) == expected[1])
 
 
-# expected: 1/2/3
+# expected: 1/2/3/... depends on number of doses
 @pytest.mark.parametrize("test, expected, expected_error",
     [
         
 
     ])
 def test_solver_for_list(test, expected, expected_error):
-    """Test the output of solver is in desired size"""
+    """Test the output represents correct number of doses"""
     from pharmodel.solutions import solver_for_list
     if expected_error:
         with pytest.raises(expected_error):
