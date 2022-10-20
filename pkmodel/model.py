@@ -15,7 +15,7 @@ class Model:
     
    
 
-    def __init__(self, absorb, comp, V_c, CL, X, Q_p1, V_p1, Q_p2, V_p2, k_a, q_0):
+    def __init__(self, absorb, comp, V_c, CL, Q_p1 = 0, V_p1 = 0.1, Q_p2 = 0, V_p2 = 0.1, k_a = 0):
         self.absorb = absorb
         self.comp = comp
         self.V_c = V_c
@@ -25,8 +25,8 @@ class Model:
         self.Q_p2 = Q_p2
         self.V_p2 = V_p2
         self.k_a = k_a
-        self.q_0 = q_0
 
+    
     # #def dose(self, t, X):
     # #    return X
 

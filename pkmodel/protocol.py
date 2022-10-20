@@ -16,6 +16,6 @@ class Protocol:
     def __init__(self, filename):
         self.filename = filename
 
-    def read_dosage(self):
+    def read_dosage(self,):
         return pd.read_csv(self.filename)
 
