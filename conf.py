@@ -17,9 +17,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'PK Modelling'
-copyright = '2022, Henriette Capel, Jiayuan Zhu, Arun Raja, Nathan Schofield'
-author = 'Henriette Capel, Jiayuan Zhu, Arun Raja, Nathan Schofield'
+project = 'pharmodel'
+copyright = '2022, arunraja-hub <surviva614@gmail.com>, HenrietteCapel<henriette_capel@live.nl>,njs59<nathan.schofield@dtc.ox.ac.uk>,jiayuanz3<jiayuanz0322@gmail.com>'
+author = 'arunraja-hub <surviva614@gmail.com>, HenrietteCapel<henriette_capel@live.nl>,njs59<nathan.schofield@dtc.ox.ac.uk>,jiayuanz3<jiayuanz0322@gmail.com>'
+
+# The full version, including alpha/beta/rc tags
+release = '0.1.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -49,4 +52,4 @@ html_theme = 'alabaster'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+html_static_path = ['_static']
