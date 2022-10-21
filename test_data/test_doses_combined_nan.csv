@@ -1,0 +1,3 @@
+tstart,tend,doses,inst
+0,15,5,0
+15,20,float("nan"),1
