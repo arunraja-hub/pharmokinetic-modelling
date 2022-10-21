@@ -8,7 +8,7 @@ Group 1: Arun Raja, Henriette Capel, Nathan Schofield, Jiayuan Zhu
 ## :pill: Pharmokinetic Modelling
 This pharmokinetic model describes the concentration of a drug in a patient. This model includes the delivery, diffusion, and clearance of the drug in the patient. The patient will be modelled as a central compartment into which the drug is administered and from which it is excreted. One or two peripheral compartements can be added by the user. The drug can be distributed to these peripheral compartments and from these compartments back to the central compartment. The dynamics of the drug are modelled by zeroth-order and first-order rate equations. 
 
-![](Pharmodel.png)
+![](pharmodel_model.png)
 
 ## :rocket: Installing Pharmodel
 
@@ -36,13 +36,21 @@ The Pharmodel library consist of four classes. The **Protocol** class enable the
 \
 This is an example code to run the model:
 
-<pre><code>dose_rec = Protocol("test_data/test_dosis_continuous.csv")
-dose_df = dose_rec.read_doses()
+<pre><code>from protocol import Protocol
+from model import Model
+from solution import Solution
+from visualisation import Visualisation
+
+dose_rec = Protocol("test_data/test_doses_continuous.csv")
+dose_df = dose_rec.read_dosage()
 model_params1 = Model(absorb = 1, comp = 0, V_c = 1.0 , CL = .1, Q_p1 = 1.0, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
 model_params2 = Model(absorb = 1, comp = 0, V_c = 1.0 , CL = .1, Q_p1 = 2, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
-solution_model1 = Solution(dose_df, model_params1)
-solution_model2 = Solution(dose_df, model_params2)
-test_case = visualisation(solution_model1, solution_model2)
+to_solve_model1 = Solution(dose_df, model_params1)
+to_solve_model2 = Solution(dose_df, model_params2)
+sol_dataframe1 = to_solve_model1.solve_dataframe(model_params1.absorb, model_params1.comp)
+sol_dataframe2 = to_solve_model2.solve_dataframe(model_params2.absorb, model_params2.comp)
+
+test_case = visualisation(sol_dataframe1, sol_dataframe2)
 print(test_case.plot_figure())
 </code></pre>
 
