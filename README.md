@@ -1,3 +1,5 @@
+[![Python package](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/python-test.yml/badge.svg)](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/python-test.yml)
+
 # Pharmodel
 Software engineering miniproject \
 Group 1: Arun Raja, Henriette Capel, Nathan Schofield, Jiayuan Zhu
