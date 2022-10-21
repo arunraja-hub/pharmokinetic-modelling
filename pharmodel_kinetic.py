@@ -1,6 +1,6 @@
 import pharmodel as pm
 
-dose_rec = pm.Protocol('test_doses_combined.csv')
+dose_rec = pm.Protocol('test_data/test_doses_combined.csv')
 dose_df = dose_rec.read_dosage()
 print(dose_df)
 model_params = pm.Model(absorb = 1, comp = 0, V_c = 1, CL = .1, Q_p1 = 1.1, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
