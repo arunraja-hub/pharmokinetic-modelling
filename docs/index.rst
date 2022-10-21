@@ -11,8 +11,10 @@ Welcome to PK modelling's documentation!
    :caption: Contents:
 
 .. automodule:: protocol
+   :members:
 
 .. automodule:: model
+   :members:
 
 .. automodule:: solution
    :dose:
