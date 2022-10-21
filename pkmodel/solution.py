@@ -1,4 +1,4 @@
-from ast import main
+#from ast import main
 from unicodedata import name
 import matplotlib.pylab as plt
 from protocol import Protocol
@@ -6,6 +6,7 @@ from model import Model
 import scipy
 # import model
 import numpy as np
+from scipy import integrate
 #
 # Solution class
 #
@@ -31,7 +32,7 @@ class Solution:
             dose = self.dose_dataframe.iloc[row_index]['doses']
         else:
             dose = 0
-        print('*****',dose)
+        #print('*****',dose)
         return dose
 
     def solve_dataframe(self, absorb, comp, ):
@@ -58,7 +59,7 @@ class Solution:
             #checks for instataneous
             if self.dose_dataframe.iloc[i][3] == 1:
                 y0[0] += self.dose_dataframe.iloc[i][2]
-                print(y0)
+                #print(y0)
                 
 
             sol_row = self.solver(self.dose_dataframe, i, y0)
@@ -235,27 +236,40 @@ class Solution:
             
 
 # if __name__ == __main__:
-dose_rec = Protocol('test_dosis_instantaneous.csv')
+dose_rec = Protocol('/Users/zhujiayuan/Desktop/pharmokinetic-modelling/test_dosis_combined.csv')
 dose_df = dose_rec.read_dosage()
-print(dose_df)
+#print(dose_df)
 model_params = Model(absorb = 0, comp = 1.0, V_c = 1.0 , CL = .1, Q_p1 = 1.1, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 0)
 df_to_solve = Solution(dose_df, model_params)
-print(model_params.absorb,model_params.comp)
+#print(model_params.absorb,model_params.comp)
 sol_dataframe = df_to_solve.solve_dataframe(model_params.absorb,model_params.comp)
-print('----',sol_dataframe)
+#print('----',sol_dataframe)
 
-fig = plt.figure()
+dose_rec2 = Protocol('/Users/zhujiayuan/Desktop/pharmokinetic-modelling/test_dosis_continuous.csv')
+dose_df2 = dose_rec2.read_dosage()
+model_params2 = Model(absorb = 0, comp = 1.0, V_c = 3.0 , CL = .5, Q_p1 = 2.0, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 0)
+df_to_solve2 = Solution(dose_df2, model_params2)
+sol_dataframe2 = df_to_solve2.solve_dataframe(model_params2.absorb,model_params2.comp)
 
-print(np.array(sol_dataframe).shape)
 
-plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[0, :])
-plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[0, :])
 
-plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[1, :])
-plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[1, :])
+from visualisation import visualisation 
+test_case = visualisation(sol_dataframe, sol_dataframe2)
+print(test_case.plot_figure())
 
-plt.legend()
-plt.ylabel('drug mass [ng]')
-plt.xlabel('time [h]')
-plt.savefig('temp.png')
+#
+# fig = plt.figure()
+
+# print(np.array(sol_dataframe).shape)
+
+# plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[0, :])
+# plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[0, :])
+
+# plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[1, :])
+# plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[1, :])
+
+# plt.legend()
+# plt.ylabel('drug mass [ng]')
+# plt.xlabel('time [h]')
+# plt.savefig('temp.png')
     
