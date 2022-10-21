@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import pkmodel as pk
 import numpy as np
 from pharmodel.protocol import Protocol
