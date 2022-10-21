@@ -5,8 +5,9 @@ import matplotlib.pylab as plt
 import numpy as np
 
 class Visualisation():
-    def __init__(self, model1, model2=None):
+    def __init__(self, model1, model2=None, absorb=[0,0]):
         self.models = [model1, model2]
+        self.absorb = absorb
 
     def plot_figure(self):
         """
@@ -31,14 +32,18 @@ class Visualisation():
             if self.models[i] == None:
                 break
             # consider more than one dose
-            
-            print(i)
+
             for j in range(0, len(self.models[i])):
                 # different linestyles according to number of systems
-                for k in range(0, len(self.models[i][j].y)):
+
+                #Check if absorption compartment exist, don't include in graph
+                start_index = 0
+                if self.absorb[i] == 1:
+                    start_index =1
+                for k in range(start_index, len(self.models[i][j].y)):
                     plt.plot(self.models[i][j].t, self.models[i][j].y[k, :], 
-                    label=f'model_{i+1}-'+ f'mass in {legend_list[k]}' if j==0 else "", 
-                    linestyle = linestyle_list[k], 
+                    label=f'model_{i+1}-'+ f'mass in {legend_list[k-start_index]}' if j==0 else "", 
+                    linestyle = linestyle_list[k-start_index], 
                     color = colour_list[i])
 
                 # add vertical line for inst dose
@@ -56,4 +61,4 @@ class Visualisation():
         plt.ylabel('drug mass [ng]')
         plt.xlabel('time [h]')
 
-        plt.savefig('figure/Drug Mass [ng] versus Time [h].png')
+        plt.savefig('Drug Mass [ng] versus Time [h].png')
