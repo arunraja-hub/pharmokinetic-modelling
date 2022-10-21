@@ -1,4 +1,5 @@
 [![Python package](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/python-test.yml/badge.svg)](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/python-test.yml)
+[![Run on multiple OS](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/os-test.yml/badge.svg)](https://github.com/arunraja-hub/pharmokinetic-modelling/actions/workflows/os-test.yml)
 
 # Pharmodel
 Software engineering miniproject \
