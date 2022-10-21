@@ -32,10 +32,15 @@ The model takes a csv file and the parameters as input parameters:
 The Pharmodel library consist of four classes. The **Protocol** class enable the user to read in a dosising protocol. The **Model** class stores the parameters. The **Solution** class solves the ODEs based on the desired pharmokinetic model, which can be visualised by the **Visualisation** class.  
 \
 This is an example code to run the model:
-<pre><code>dose_df = Pharmodel.Protocol.read_doses("test_data/test_dosis_instantaneous.csv")
-solution_model1 = Pharmodel.Solution.solve_loops(dose_df, 0, 1, 1.0, 1.0, 1.0, 1.0)
-solution_model2 = Pharmodel.Solution.solve_loops(dose_df, 0, 1, 1.0, 1.0, 2.0, 1.0)
-Pharmodel.Visualisation.plotting(solution_model1, solution_model2)
+
+<pre><code>dose_rec = Protocol("test_data/test_dosis_continuous.csv")
+dose_df = dose_rec.read_doses()
+model_params1 = Model(absorb = 1, comp = 0, V_c = 1.0 , CL = .1, Q_p1 = 1.0, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
+model_params2 = Model(absorb = 1, comp = 0, V_c = 1.0 , CL = .1, Q_p1 = 2, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
+solution_model1 = Solution(dose_df, model_params1)
+solution_model2 = Solution(dose_df, model_params2)
+test_case = visualisation(solution_model1, solution_model2)
+print(test_case.plot_figure())
 </code></pre>
 
 The output:
