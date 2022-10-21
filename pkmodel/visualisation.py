@@ -8,7 +8,6 @@ class visualisation():
     def __init__(self, model1, model2=None):
         self.models = [model1, model2]
 
-
     def plot_figure(self):
         """
         Visualisation for the Pharmokinetic (PK) model
@@ -18,10 +17,9 @@ class visualisation():
 
         # line style list ('-' for central, '--' for peipheral1, ':' for peripheral2)
         linestyle_list = ['-', '--', ':']
-
         # legend list 
         legend_list = ['C', 'P1', 'P2']
-
+        # colour list
         colour_list = ['red', 'blue']
 
         # only one figure
@@ -32,11 +30,12 @@ class visualisation():
             if self.models[i] == None:
                 break
             # consider more than one dose
+            print(i)
             for j in range(0, len(self.models[i])):
                 # different linestyles according to number of systems
                 for k in range(0, len(self.models[i][j].y)):
                     plt.plot(self.models[i][j].t, self.models[i][j].y[k, :], 
-                    label=f'model_{i+1}-'+ f'mass in {legend_list[k]}', 
+                    label=f'model_{i+1}-'+ f'mass in {legend_list[k]}' if j==0 else "", 
                     linestyle = linestyle_list[k], 
                     color = colour_list[i])
 
@@ -53,6 +52,6 @@ class visualisation():
         plt.title('Drug Mass [ng] versus Time [h]')
         plt.ylabel('drug mass [ng]')
         plt.xlabel('time [h]')
-        #plt.savefig('../Figure/Drug Mass [ng] versus Time [h].png')
+        plt.savefig('../Figure/Drug Mass [ng] versus Time [h].png')
         plt.show()
 

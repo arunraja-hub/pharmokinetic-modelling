@@ -1,3 +1,4 @@
+import pandas as pd
 #
 # Protocol class
 #
@@ -12,6 +13,9 @@ class Protocol:
         an example paramter
 
     """
-    def __init__(self, value=43):
-        self.value = value
+    def __init__(self, filename):
+        self.filename = filename
+
+    def read_dosage(self,):
+        return pd.read_csv(self.filename)
 
