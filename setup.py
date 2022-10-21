@@ -46,9 +46,9 @@ setup(
 
     license='MIT license',
 
-    # author='',
+    author='arunraja-hub',
 
-    # author_email='',
+    author_email='surviva614"gmail.com',
 
     maintainer='Martin Robinson',
 
