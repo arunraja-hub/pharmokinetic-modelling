@@ -2,7 +2,7 @@
 name = "pharmodel"
 version = "0.1.0"
 description = "pharmodel can specify, solve and visualise the solution of a pharmokinetic model"
-authors = ["arunraja-hub <surviva614@gmail.com>]
+authors = ["arunraja-hub <surviva614@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
