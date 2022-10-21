@@ -9,8 +9,7 @@ class Protocol:
     Parameters
     ----------
 
-    value: numeric, optional
-        an example paramter
+    filename: the name of the csv file containing the dosage records
 
     """
     def __init__(self, filename):
