@@ -6,6 +6,7 @@ def dose(t, X):
     return X
 
 def rhs(t, y, Q_p1, V_c, V_p1, CL, X):
+    print('inside rhs',y)
     q_c, q_p1 = y
     transition = Q_p1 * (q_c / V_c - q_p1 / V_p1)
     dqc_dt = dose(t, X) - q_c / V_c * CL - transition
@@ -31,7 +32,8 @@ model2_args = {
 }
 
 t_eval = np.linspace(0, 1, 1000)
-y0 = np.array([0.0, 0.0])
+y0 = [0,0]
+# np.array([0.0, 0.0])
 
 fig = plt.figure()
 for model in [model1_args, model2_args]:

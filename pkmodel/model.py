@@ -4,13 +4,20 @@
 
 class Model:
     """A Pharmokinetic (PK) model
-    This model sets up the right hand side of the system of ODEs
+    This class acts as a medium to accept the user inputs for the pharmokinetic model
 
     Parameters
     ----------
 
-    value: numeric, optional
-        an example paramter
+    absorb: numeric, binary value where 1 means there is an absoption compartment and 0 vice versa
+    comp: numeric, number of peripheral compartments
+    V_c:  
+    CL: 
+    Q_p1:
+    V_p1:
+    Q_p2:
+    V_p2:
+    k_a:
         """
     
    

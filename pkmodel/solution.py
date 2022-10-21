@@ -1,9 +1,9 @@
 import matplotlib.pylab as plt
-from protocol import Protocol
 from model import Model
 import scipy
-# import model
 import numpy as np
+from scipy import integrate
+
 #
 # Solution class
 #
@@ -14,8 +14,6 @@ class Solution:
     Parameters
     ----------
 
-    value: numeric, optional
-        an example paramter
 
     """
     def __init__(self, dose_dataframe,model_instance):
@@ -23,6 +21,11 @@ class Solution:
         self.model_instance = model_instance
 
     def dose(self,t,row_index):
+        """ This function sets the doses at a certain time point to the value given in the dosing protocol. The dose is set to 0 in case of an instantaneous dosing because this dose is taken into account when setting the initial values.
+
+        :param: ....
+
+        """
         t = int(t)
         if self.dose_dataframe.iloc[row_index]['tstart'] <= t <= self.dose_dataframe.iloc[row_index]['tend'] and self.dose_dataframe.iloc[row_index]['inst'] == 0 :#
             dose = self.dose_dataframe.iloc[row_index]['doses']
@@ -113,6 +116,11 @@ class Solution:
 
     
     def rhs_10(self, row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
+        """
+        Calculates the values of the RHS of the ODE system for case with a peripheral compartment but absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
         q_c, q_p1 = y
         transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
         dqc_dt = self.dose(t,row_index) - (q_c / V_c) * CL - transition1 #1 needs replacing with dose
@@ -120,80 +128,69 @@ class Solution:
         return [dqc_dt, dqp1_dt]
 
     def rhs_00(self, row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
-                q_c = y
-                dqc_dt = self.dose(t,row_index) - (q_c / V_c) * CL
-                return [dqc_dt]
+        """
+        Calculates the values of the RHS of the ODE system for case with no peripheral compartments or absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
+        q_c = y
+        dqc_dt = self.dose(t,row_index) - (q_c / V_c) * CL
+        return [dqc_dt]
 
     def rhs_01(self, row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
-            q_0, q_c = y
-            dq0_dt = self.dose(t,row_index) - k_a * q_0
-            dqc_dt = k_a * q_0 - (q_c / V_c) * CL
-            return [dq0_dt , dqc_dt]
+        """
+        Calculates the values of the RHS of the ODE system for case with no peripheral compartments but there is an absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
+        q_0, q_c = y
+        dq0_dt = self.dose(t,row_index) - k_a * q_0
+        dqc_dt = k_a * q_0 - (q_c / V_c) * CL
+        return [dq0_dt , dqc_dt]
         
             
     def rhs_11(self, row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
-            q_0, q_c, q_p1 = y
-            transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
-            dq0_dt = self.dose(t,row_index) - (k_a * q_0)
-            dqc_dt = (k_a * q_0) - (q_c / V_c) * CL - transition1
-            dqp1_dt = transition1
-            return [dq0_dt , dqc_dt, dqp1_dt]
+        """
+        Calculates the values of the RHS of the ODE system for case with a peripheral compartment and there is an absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
+        q_0, q_c, q_p1 = y
+        transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
+        dq0_dt = self.dose(t,row_index) - (k_a * q_0)
+        dqc_dt = (k_a * q_0) - (q_c / V_c) * CL - transition1
+        dqp1_dt = transition1
+        return [dq0_dt , dqc_dt, dqp1_dt]
             
 
     def rhs_20(self, row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
-                q_c, q_p1, q_p2= y
-                transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
-                transition2 = Q_p2 * (q_c / V_c) - (q_p2 / V_p2)
-                dqc_dt = self.dose(t,row_index) - (q_c / V_c) * CL - transition1 - transition2
-                dqp1_dt = transition1
-                dqp2_dt = transition2 
-                return [dqc_dt, dqp1_dt, dqp2_dt]
+        """
+        Calculates the values of the RHS of the ODE system for case with 2 peripheral compartments but absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
+        q_c, q_p1, q_p2= y
+        transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
+        transition2 = Q_p2 * (q_c / V_c) - (q_p2 / V_p2)
+        dqc_dt = self.dose(t,row_index) - (q_c / V_c) * CL - transition1 - transition2
+        dqp1_dt = transition1
+        dqp2_dt = transition2 
+        return [dqc_dt, dqp1_dt, dqp2_dt]
 
     def rhs_21 (self,row_index, t, y, absorb, comp, V_c, CL, Q_p1, V_p1, Q_p2, V_p2, k_a):
-                q_0, q_c, q_p1, q_p2 = y
-                transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
-                transition2 = Q_p2 * (q_c / V_c) - (q_p2 / V_p2)
-                dq0_dt = self.dose(t,row_index) - k_a * q_0
-                dqc_dt = k_a * q_0 - (q_c / V_c) * CL - transition1 - transition2
-                dqp1_dt = transition1
-                dqp2_dt = transition2
-                return [dq0_dt , dqc_dt, dqp1_dt, dqp2_dt]
+        """
+        Calculates the values of the RHS of the ODE system for case with 2 peripheral compartments and there is an absorption compartment
+        input: a list of parameter values for the system and the corresponding time
+        output: vector of values ‘y’ corresponding to value of rhs of ODEs at given time
+        """
+        q_0, q_c, q_p1, q_p2 = y
+        transition1 = Q_p1 * (q_c / V_c) - (q_p1 / V_p1)
+        transition2 = Q_p2 * (q_c / V_c) - (q_p2 / V_p2)
+        dq0_dt = self.dose(t,row_index) - k_a * q_0
+        dqc_dt = k_a * q_0 - (q_c / V_c) * CL - transition1 - transition2
+        dqp1_dt = transition1
+        dqp2_dt = transition2
+        return [dq0_dt , dqc_dt, dqp1_dt, dqp2_dt]
 
 
-            
-
-dose_rec = Protocol('test_dosis_combined.csv')
-dose_df = dose_rec.read_dosage()
-print(dose_df)
-model_params = Model(absorb = 1, comp = 0, V_c = 1.0 , CL = .1, Q_p1 = 1.1, V_p1 = 0.1, Q_p2 = 1.0, V_p2 = 0.1, k_a = 1.0)
-df_to_solve = Solution(dose_df, model_params)
-print(model_params.absorb,model_params.comp)
-sol_dataframe = df_to_solve.solve_dataframe(model_params.absorb,model_params.comp)
-print('----',sol_dataframe)
-
-fig = plt.figure()
-
-print(np.array(sol_dataframe).shape)
-
-plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[0, :])
-plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[0, :])
-plt.plot(sol_dataframe[2].t, sol_dataframe[2].y[0, :])
-
-plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[1, :])
-plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[1, :])
-plt.plot(sol_dataframe[2].t, sol_dataframe[2].y[1, :])
-
-# plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[2, :])
-# plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[2, :])
-# plt.plot(sol_dataframe[2].t, sol_dataframe[2].y[2, :])
-
-
-# plt.plot(sol_dataframe[0].t, sol_dataframe[0].y[3, :])
-# plt.plot(sol_dataframe[1].t, sol_dataframe[1].y[3, :])
-# plt.plot(sol_dataframe[2].t, sol_dataframe[2].y[3, :])
-
-plt.legend()
-plt.ylabel('drug mass [ng]')
-plt.xlabel('time [h]')
-plt.savefig('temp.png')
-    
+  
