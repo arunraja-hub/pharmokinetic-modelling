@@ -11,7 +11,7 @@ This pharmokinetic model describes the concentration of a drug in a patient. Thi
 ![](pharmodel_model.png)
 
 ## :rocket: Installing Pharmodel
-This package is pip installable:
+Unfortunately the package is not yet pip installable. 
 
 
 ## :running: Using Pharmodel
@@ -58,6 +58,7 @@ print(test_case.plot_figure())
 
 The output:
 
+![](example_output.png)
 
 For a more detailed documentation see: [ReadTheDocs](https://phar-model.readthedocs.io/en/latest/)
 ## :page_facing_up: Licence 
