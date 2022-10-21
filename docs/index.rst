@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PK modelling's documentation!
+Welcome to pharmodel modelling's documentation!
 ========================================
 
 .. toctree::
@@ -17,20 +17,11 @@ Welcome to PK modelling's documentation!
    :members:
 
 .. automodule:: solution
-   :dose:
-   :solve_dataframe:
-   :solver: 
-   :rhs:
-   :rhs_00:
-   :rhs_01:
-   :rhs_10:
-   :rhs_11:
-   :rhs_20:
-   :rhs_21:
+   :members:
 
 
 .. automodule:: visualisation
-   :plot_figure:
+   :members:
 
 Indices and tables
 ==================
