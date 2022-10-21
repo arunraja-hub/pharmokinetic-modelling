@@ -56,5 +56,4 @@ class Visualisation():
         plt.ylabel('drug mass [ng]')
         plt.xlabel('time [h]')
 
-        plt.savefig('../figure/Drug Mass [ng] versus Time [h].png')
-        plt.show()
+        plt.savefig('figure/Drug Mass [ng] versus Time [h].png')

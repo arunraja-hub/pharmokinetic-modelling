@@ -1,5 +1,5 @@
 import matplotlib.pylab as plt
-from model import Model
+from .model import Model
 import scipy
 import numpy as np
 from scipy import integrate
@@ -48,7 +48,7 @@ class Solution:
         elif comp == 2 and absorb == 1: 
             y0 = [0,0,0,0]
         else :
-            raise("Invalid parameter values")
+            raise ValueError("Invalid parameter values. abosrb must be 0 or 1. comp must be 0,1 or 2.")
 
         sol_dataframe = []
 

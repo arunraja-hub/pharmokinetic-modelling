@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import os
 #
 # Protocol class
 #
@@ -14,7 +16,12 @@ class Protocol:
 
     """
     def __init__(self, filename):
-        self.filename = filename
+        self.filename = filename if (os.path.splitext(filename)[1] == '.csv') else self.raiseTypeErr('not a csv file')
+    
+    def raiseTypeErr(self,stringexp):
+        raise TypeError(stringexp)
+
+
 
     def read_dosage(self,):
         df = pd.read_csv(self.filename)
