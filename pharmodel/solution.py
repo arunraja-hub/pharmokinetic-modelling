@@ -1,5 +1,5 @@
 import matplotlib.pylab as plt
-from model import Model
+from .model import Model
 import scipy
 import numpy as np
 from scipy import integrate
