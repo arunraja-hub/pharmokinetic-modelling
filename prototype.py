@@ -38,6 +38,7 @@ y0 = [0,0]
 fig = plt.figure()
 for model in [model1_args, model2_args]:
     args = [
+        
         model['Q_p1'], model['V_c'], model['V_p1'], model['CL'], model['X']
     ]
     sol = scipy.integrate.solve_ivp(
@@ -45,9 +46,9 @@ for model in [model1_args, model2_args]:
         t_span=[t_eval[0], t_eval[-1]],
         y0=y0, t_eval=t_eval
     )
+    print(sol.y)
     plt.plot(sol.t, sol.y[0, :], label=model['name'] + '- q_c')
     plt.plot(sol.t, sol.y[1, :], label=model['name'] + '- q_p1')
-
 plt.legend()
 plt.ylabel('drug mass [ng]')
 plt.xlabel('time [h]')

@@ -17,6 +17,7 @@ class Visualisation():
 
         # line style list ('-' for central, '--' for peipheral1, ':' for peripheral2)
         linestyle_list = ['-', '--', ':']
+
         # legend list 
         legend_list = ['C', 'P1', 'P2']
         # colour list
@@ -30,6 +31,7 @@ class Visualisation():
             if self.models[i] == None:
                 break
             # consider more than one dose
+            
             print(i)
             for j in range(0, len(self.models[i])):
                 # different linestyles according to number of systems
@@ -48,10 +50,11 @@ class Visualisation():
                     color = colour_list[i])
 
 
+
         plt.legend()
         plt.title('Drug Mass [ng] versus Time [h]')
         plt.ylabel('drug mass [ng]')
         plt.xlabel('time [h]')
-        plt.savefig('../Figure/Drug Mass [ng] versus Time [h].png')
-        plt.show()
 
+        plt.savefig('../figure/Drug Mass [ng] versus Time [h].png')
+        plt.show()
